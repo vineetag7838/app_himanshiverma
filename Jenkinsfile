@@ -36,7 +36,7 @@ triggers {
 	stage('gitCheckout') {
                 steps {
 				echo 'Checkout code'
-                    git branch: "${BRANCH_NAME}",credentialsId: 'github', url:'https://github.com/HimanshiVerma05/app-himanshiverma.git'
+                    git branch: "${BRANCH_NAME}",credentialsId: 'github', url:'https://github.com/HimanshiVerma05/app_himanshiverma.git'
                 }
             }
       /*  stage('gitCheckout'){
