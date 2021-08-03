@@ -1,0 +1,6 @@
+kind:Namespace
+apiVersion:v1
+metadata:
+   name:kubernetes-cluster-himanshiverma05
+   labels:
+     name:kubernetes-cluster-himanshiverma05
