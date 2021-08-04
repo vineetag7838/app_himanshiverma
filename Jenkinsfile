@@ -184,6 +184,8 @@ stage('Kubernetes Deployment on local ') {
 							if(BRANCH_NAME == 'develop'){
 									 powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30158') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
+		
+		                    bat "kubectl config view"
                             bat "kubectl config use-context docker-desktop"
 							
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
