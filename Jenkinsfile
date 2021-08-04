@@ -152,7 +152,7 @@ triggers {
 								
 							
 								
-								bat "docker run --name c-${username}-${BRANCH_NAME} -d -p ${portNumber}:8080 ${dockerhubUsername}/i-${username}-${BRANCH_NAME}:${BUILD_NUMBER}"
+								bat "docker run --name c-${username}-${BRANCH_NAME} -d -p ${portNumber}:8100 ${dockerhubUsername}/i-${username}-${BRANCH_NAME}:${BUILD_NUMBER}"
 								
 								
 							}												
