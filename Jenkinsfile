@@ -167,7 +167,7 @@ triggers {
             }
   
          
-stage('Kubernetes Deployment') {
+stage('Kubernetes Deployment on local ') {
 
                 steps{
                   script{
@@ -175,6 +175,8 @@ stage('Kubernetes Deployment') {
 							 if(BRANCH_NAME == 'master'){
 									powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30157') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
+		
+							 bat "kubectl config use-context docker-desktop"
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 								}
 								
@@ -182,7 +184,7 @@ stage('Kubernetes Deployment') {
 							if(BRANCH_NAME == 'develop'){
 									 powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30158') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
-                            
+                            bat "kubectl config use-context docker-desktop"
 							
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
@@ -195,6 +197,15 @@ stage('Kubernetes Deployment') {
 
 
             }
+			
+			
+			stage('kubernetes deployment on GKE'){
+			 steps{
+			  bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+			  bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
+			 }
+			
+			}
 
 		 
 
