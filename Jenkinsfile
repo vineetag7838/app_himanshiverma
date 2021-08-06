@@ -187,7 +187,11 @@ stage('Kubernetes Deployment on local ') {
 		
 		                   // bat "kubectl config view"
                             //bat "kubectl config use-context docker-desktop"
-							bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+							//bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+							
+							
+							//bat "gcloud config list --format=json"
+							//bat "gcloud config list --format=json --configuration=default"
 							
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
