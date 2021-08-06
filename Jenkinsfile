@@ -15,7 +15,8 @@ pipeline {
     }
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
-        maven "M3"
+        maven "Maven3"
+		jdk "JDK11"
     }
     
 triggers {
@@ -52,7 +53,7 @@ triggers {
 		stage('Code Build'){
             steps{
                 echo 'doing maven build '
-                bat 'mvn clean install'
+                bat 'mvn clean package'
             }
         }
 		
@@ -151,7 +152,7 @@ triggers {
 								
 							
 								
-								bat "docker run --name c-${username}-${BRANCH_NAME} -d -p ${portNumber}:8080 ${dockerhubUsername}/i-${username}-${BRANCH_NAME}:${BUILD_NUMBER}"
+								bat "docker run --name c-${username}-${BRANCH_NAME} -d -p ${portNumber}:8100 ${dockerhubUsername}/i-${username}-${BRANCH_NAME}:${BUILD_NUMBER}"
 								
 								
 							}												
@@ -166,7 +167,7 @@ triggers {
             }
   
          
-stage('Kubernetes Deployment') {
+stage('Kubernetes Deployment on local ') {
 
                 steps{
                   script{
@@ -174,6 +175,8 @@ stage('Kubernetes Deployment') {
 							 if(BRANCH_NAME == 'master'){
 									powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30157') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
+		
+							 bat "kubectl config use-context docker-desktop"
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 								}
 								
@@ -181,7 +184,14 @@ stage('Kubernetes Deployment') {
 							if(BRANCH_NAME == 'develop'){
 									 powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30158') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
-                            
+		
+		                   // bat "kubectl config view"
+                            //bat "kubectl config use-context docker-desktop"
+							//bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+							
+							
+							//bat "gcloud config list --format=json"
+							//bat "gcloud config list --format=json --configuration=default"
 							
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
@@ -194,6 +204,15 @@ stage('Kubernetes Deployment') {
 
 
             }
+			
+			
+			stage('kubernetes deployment on GKE'){
+			 steps{
+			  bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+			  bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
+			 }
+			
+			}
 
 		 
 
