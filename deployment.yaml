@@ -21,10 +21,6 @@ spec:
         env:
           - name: deployment.branch
             value: {{BRANCH_NAME}} 
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
         - containerPort: 8100
 ---

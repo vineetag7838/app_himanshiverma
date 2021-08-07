@@ -167,6 +167,10 @@ stage('Kubernetes Deployment') {
 							 bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
+							//setting context to docker-desktop in order to run on localhost
+							 bat "kubectl config use-context docker-desktop"
+                            bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
+							
 							echo "firewall for port 30157"
 							
 							 try{
@@ -188,6 +192,10 @@ stage('Kubernetes Deployment') {
 							 echo "setting context for gke in branch develop"					
 							bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
+							
+							//setting context to docker-desktop in order to run on localhost
+							 bat "kubectl config use-context docker-desktop"
+                            bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
 					 
 					  echo "firewall for port 30158"
