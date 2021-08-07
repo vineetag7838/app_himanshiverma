@@ -167,7 +167,7 @@ triggers {
             }
   
          
-stage('Kubernetes Deployment on local ') {
+stage('Kubernetes Deployment') {
 
                 steps{
                   script{
@@ -193,6 +193,7 @@ stage('Kubernetes Deployment on local ') {
 							//bat "gcloud config list --format=json"
 							//bat "gcloud config list --format=json --configuration=default"
 							
+							bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
 					  //  step ([$class: 'KubernetesEngineBuilder', projectId: env.project_id, clusterName: env.cluster_name, location: env.location, manifestPattern: 'deployment.yaml', credentialsId: env.credentials_id, verifyDeployments: true])
@@ -206,13 +207,7 @@ stage('Kubernetes Deployment on local ') {
             }
 			
 			
-			stage('kubernetes deployment on GKE'){
-			 steps{
-			 // bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
-			  bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
-			 }
 			
-			}
 
 		 
 
