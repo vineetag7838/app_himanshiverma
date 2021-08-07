@@ -176,7 +176,8 @@ stage('Kubernetes Deployment') {
 									powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{DOCKERHUBUSERNAME}}','${dockerhubUsername}').Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30157') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
 		
-							 bat "kubectl config use-context docker-desktop"
+							 //bat "kubectl config use-context docker-desktop"
+							 bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 								}
 								
