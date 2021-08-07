@@ -167,22 +167,23 @@ triggers {
             }
   
          
-stage('Kubernetes Deployment on local ') {
+stage('Kubernetes Deployment') {
 
                 steps{
                   script{
 							
 							 if(BRANCH_NAME == 'master'){
-									powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30157') | Out-File ${WORKSPACE}\\deployment.yaml"
+									powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{DOCKERHUBUSERNAME}}','${dockerhubUsername}').Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30157') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
 		
-							 bat "kubectl config use-context docker-desktop"
+							 //bat "kubectl config use-context docker-desktop"
+							 bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 								}
 								
 								
 							if(BRANCH_NAME == 'develop'){
-									 powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30158') | Out-File ${WORKSPACE}\\deployment.yaml"
+									 powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{DOCKERHUBUSERNAME}}','${dockerhubUsername}').Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30158') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
 		
 		                   // bat "kubectl config view"
@@ -193,6 +194,7 @@ stage('Kubernetes Deployment on local ') {
 							//bat "gcloud config list --format=json"
 							//bat "gcloud config list --format=json --configuration=default"
 							
+							bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
 					  //  step ([$class: 'KubernetesEngineBuilder', projectId: env.project_id, clusterName: env.cluster_name, location: env.location, manifestPattern: 'deployment.yaml', credentialsId: env.credentials_id, verifyDeployments: true])
@@ -206,13 +208,7 @@ stage('Kubernetes Deployment on local ') {
             }
 			
 			
-			stage('kubernetes deployment on GKE'){
-			 steps{
-			  bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
-			  bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
-			 }
 			
-			}
 
 		 
 
