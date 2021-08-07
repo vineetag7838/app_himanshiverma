@@ -173,7 +173,7 @@ stage('Kubernetes Deployment on local ') {
                   script{
 							
 							 if(BRANCH_NAME == 'master'){
-									powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30157') | Out-File ${WORKSPACE}\\deployment.yaml"
+									powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{DOCKERHUBUSERNAME}}','${dockerhubUsername}').Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30157') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
 		
 							 bat "kubectl config use-context docker-desktop"
@@ -182,7 +182,7 @@ stage('Kubernetes Deployment on local ') {
 								
 								
 							if(BRANCH_NAME == 'develop'){
-									 powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30158') | Out-File ${WORKSPACE}\\deployment.yaml"
+									 powershell "(Get-Content ${WORKSPACE}\\deployment.yaml).Replace('{{DOCKERHUBUSERNAME}}','${dockerhubUsername}').Replace('{{USERNAME}}', '${username}').Replace('{{BRANCH_NAME}}', '${BRANCH_NAME}').Replace('{{BUILD_NUMBER}}', '${BUILD_NUMBER}').Replace('{{PORT}}', '30158') | Out-File ${WORKSPACE}\\deployment.yaml"
 		
 		
 		                   // bat "kubectl config view"
@@ -208,7 +208,7 @@ stage('Kubernetes Deployment on local ') {
 			
 			stage('kubernetes deployment on GKE'){
 			 steps{
-			  bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+			 // bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
 			  bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 			 }
 			

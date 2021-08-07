@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: app-{{USERNAME}}
-        image: {{USERNAME}}/i-{{USERNAME}}-{{BRANCH_NAME}}:latest
+        image: {{DOCKERHUBUSERNAME}}/i-{{USERNAME}}-{{BRANCH_NAME}}:{{BUILD_NUMBER}}
         env:
           - name: deployment.branch
             value: {{BRANCH_NAME}} 
@@ -30,15 +30,16 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata:
-  namespace: kubernetes-cluster-{{USERNAME}}
-  name: app-{{USERNAME}}
-spec:
-  type: LoadBalancer
-  selector:
-    app: app-{{USERNAME}}
-  ports:
-  - port: {{PORT}}
-    targetPort: 8100
-    protocol: TCP
+metadata: 
+    namespace: kubernetes-cluster-{{USERNAME}}
+    name: app-{{USERNAME}}
+spec: 
+   type: NodePort
+   selector:
+       app: app-{{USERNAME}}
+   ports:
+      - protocol: TCP
+        nodePort: {{PORT}}
+        port: 8100
+        targetPort: 8100              
 
