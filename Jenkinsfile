@@ -19,7 +19,7 @@ pipeline {
         maven "Maven3"
 		//I have used jenkins jdk11 global tool configuration pointing to the jdk 11 on my machine because there was some issue with my client projects.
 		// This step can be removed if you have jdk 11 installed on your machine and all path set 
-		jdk "JDK11"
+
     }
     
 triggers {
