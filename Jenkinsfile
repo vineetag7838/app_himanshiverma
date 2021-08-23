@@ -56,15 +56,10 @@ triggers {
                     branch 'master'
                 }
                 steps {
-				echo 'Performing sonarqube analysis of the code.'
-                 
-				 withSonarQubeEnv('Test_Sonar') {
-					bat "${scannerHome}/bin/sonar-scanner \
-					-Dsonar.projectKey=sonar-himanshiverma \
-					-Dsonar.projectName=sonar-himanshiverma \
-					-Dsonar.host.url=http://localhost:9000 \
-					-Dsonar.java.binaries=target/classes"
-                }
+				withSonarQubeEnv("Test_Sonar")
+		   {
+			  bat "mvn sonar:sonar -Dhttps.protocols=TLSv1.2"
+		   }
                 }
             }
 		
