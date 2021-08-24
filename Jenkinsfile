@@ -159,11 +159,11 @@ stage('Kubernetes Deployment') {
 		
 		
 							 echo "setting context for gke in branch master"
-							 bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+							// bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}" --vineet
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
 							//setting context to docker-desktop in order to run on localhost
-							 bat "kubectl config use-context docker-desktop"
+							// bat "kubectl config use-context docker-desktop" --vineet
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
 							echo "firewall for port 30157"
@@ -185,11 +185,11 @@ stage('Kubernetes Deployment') {
 							//bat "gcloud config list --format=json"
 							//bat "gcloud config list --format=json --configuration=default"
 							 echo "setting context for gke in branch develop"					
-							bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}"
+							//bat "kubectl config use-context gke_${project_id}_${location}_${cluster_name}" --vineet
 							bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
 							//setting context to docker-desktop in order to run on localhost
-							 bat "kubectl config use-context docker-desktop"
+							 //bat "kubectl config use-context docker-desktop" --vineet
                             bat "kubectl apply -f ${WORKSPACE}\\deployment.yaml"
 							
 					 
